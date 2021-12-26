@@ -1,7 +1,7 @@
 <template>
-
-  <ArtSunday/>
-
+  <div id="click-handler" @mousemove="count" @touchmove="count">
+    <ArtSunday :counter=counter />
+  </div>
 </template>
 
 <script>
@@ -12,6 +12,16 @@
     name: 'App',
     components: {
       ArtSunday
+    },
+    data() {
+      return {
+        counter: 0
+      }
+    },
+    methods: {
+      count() {
+        this.counter += 1;
+      }
     }
   }
 

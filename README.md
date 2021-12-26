@@ -9,6 +9,7 @@
   * [vue-fmt](https://atom.io/packages/vue-fmt)
   * [language-vue](https://atom.io/packages/language-vue)
 * [firefox](https://www.mozilla.org/en-US/firefox/new/)
+  * [Vue.js devtools (beta)](https://github.com/vuejs/devtools/releases/tag/v6.0.0-beta.21)
 
 ## Project setup
 ```
