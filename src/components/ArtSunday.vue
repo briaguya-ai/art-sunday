@@ -2,10 +2,10 @@
 
   <div id="art-sunday">
     <div id="art" class="text">
-      <h1 :style="{ color: artColorString }">ART!</h1>
+      <h1 :style="{ color: artColorString }">{{artText}}</h1>
     </div>
     <div id="sunday" class="text">
-      <h1 :style="{ color: sundayColorString }">SUNDAY!</h1>
+      <h1 :style="{ color: sundayColorString }">{{sundayText}}</h1>
     </div>
   </div>
 
@@ -25,14 +25,46 @@
       counter: {
         type: Number,
         default: 0
+      },
+      mode: {
+        type: Number,
+        default: 0
+      },
+      score: {
+        type: Number,
+        default: 0
+      },
+      endgame: {
+        type: Boolean,
+        default: false
       }
     },
     computed: {
       artColorString() {
-        return 'hsl('+this.baseHue+',100%,50%)';
+        switch (this.mode) {
+          case 1:
+            return 'hsl('+this.baseHue+',100%,75%)';
+          default:
+            return 'hsl('+this.baseHue+',100%,50%)';
+        }
       },
       sundayColorString() {
-        return 'hsl('+(this.baseHue + 180)%360+',100%,50%)';
+        switch (this.mode) {
+          case 1:
+            return 'hsl('+(this.baseHue + 30)%360+',100%,75%)';
+          default:
+            return 'hsl('+(this.baseHue + 180)%360+',100%,50%)';
+        }
+      },
+      artText() {
+        if(this.endgame)
+          return 'SCORE';
+        return 'ART!';
+      },
+      sundayText() {
+        if(this.endgame)
+          return this.score;
+        return 'SUNDAY!';
       }
     },
   }

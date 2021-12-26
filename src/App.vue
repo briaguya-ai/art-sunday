@@ -1,7 +1,7 @@
 <template>
 
-  <div id="click-handler" @mousemove="fadeSeven" @touchmove="fadeSeven">
-    <ArtSunday :baseHue=baseHue />
+  <div id="click-handler" :style="{ background: backgroundStyleString }" @mousemove="fadeSeven" @touchmove="fadeSeven">
+    <ArtSunday :baseHue=baseHue :mode=mode :score=score :endgame=endgame />
   </div>
 
 </template>
@@ -17,12 +17,61 @@
     },
     data() {
       return {
-        baseHue: 0
+        baseHue: 0,
+        mode: 0,
+        endgame: false,
+        score: 0,
+        hueChangeRate: 0.5,
+        maxChangeRate: 1,
       }
     },
     methods: {
       fadeSeven() {
-        this.baseHue = (this.baseHue + 0.5) % 360
+        this.baseHue = (this.baseHue + this.hueChangeRate) % 360
+        this.score += this.hueChangeRate
+        if (this.score % 570 === 0) {
+          this.mode = (this.mode + 1) % 2;
+          switch(this.score) {
+            case 24510:
+              console.log('endgame')
+              this.endgame = true;
+              break;
+            case 17670:
+              this.hueChangeRate = 2;
+              this.maxChangeRate = 2;
+              break;
+            case 9120:
+              this.hueChangeRate = 0.5;
+              this.maxChangeRate = 2;
+              break;
+            case 5700:
+              this.hueChangeRate = 1;
+              this.maxChangeRate = 0.5;
+              break;
+            default:
+              this.hueChangeRate += (this.maxChangeRate - this.hueChangeRate) / 2;
+          }
+        }
+      },
+    },
+    computed: {
+      backgroundStyleString() {
+        switch (this.mode) {
+          case 1:
+            return (
+              'linear-gradient(' +
+              'hsl(' +
+              ((this.baseHue + 180) % 360) +
+              ',100%,25%)' +
+              ',' +
+              'hsl(' +
+              ((this.baseHue + 210) % 360) +
+              ',100%,25%)' +
+              ')'
+            )
+          default:
+            return '#000000'
+        }
       }
     }
   }
@@ -39,14 +88,16 @@
     margin: 0;
     padding: 0;
     height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #000000;
   }
 
   #click-handler {
     margin: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .text {
