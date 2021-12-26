@@ -4,6 +4,9 @@
     <div id="art" class="text">
       <h1 :style="{ color: '#' + artColor.toString(16) }">ART</h1>
     </div>
+    <div id="sunday" class="text">
+      <h1 :style="{ color: '#' + artColor.toString(16) }">SUNDAY</h1>
+    </div>
   </div>
 
 </template>

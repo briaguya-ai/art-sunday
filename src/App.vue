@@ -27,22 +27,27 @@
     margin: 0;
     padding: 0;
     height: 100vh;
-  }
-
-  #art-sunday {
-    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: #000000;
-  }
-
-  @media screen and (min-width: 600px) {
-    .text {
-      font-size: 100px;
-    }
   }
 
   .text {
     padding: 20px;
     font-size: 36px;
+  }
+
+  @media screen and (min-width: 600px) {
+    .text {
+      font-size: 64px;
+    }
+  }
+
+  @media screen and (min-width: 900px) and (min-height: 540px) {
+    .text {
+      font-size: 96px;
+    }
   }
 
   h1 {
