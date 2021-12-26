@@ -1,4 +1,4 @@
-# art-sunday
+# [artsunday.xyz](https://artsunday.xyz/)
 
 ## dev environment
 * [debian sid](https://www.debian.org/releases/sid/)
