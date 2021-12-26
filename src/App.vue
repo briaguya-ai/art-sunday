@@ -1,7 +1,9 @@
 <template>
-  <div id="click-handler" @mousemove="count" @touchmove="count">
-    <ArtSunday :counter=counter />
+
+  <div id="click-handler" @mousemove="fadeSeven" @touchmove="fadeSeven">
+    <ArtSunday :baseHue=baseHue />
   </div>
+
 </template>
 
 <script>
@@ -15,12 +17,12 @@
     },
     data() {
       return {
-        counter: 0
+        baseHue: 0
       }
     },
     methods: {
-      count() {
-        this.counter += 1;
+      fadeSeven() {
+        this.baseHue = (this.baseHue + 0.5) % 360
       }
     }
   }

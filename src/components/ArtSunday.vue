@@ -2,7 +2,7 @@
 
   <div id="art-sunday">
     <div id="art" class="text">
-      <h1 :style="{ color: artColorString }">ART {{ counter }}</h1>
+      <h1 :style="{ color: artColorString }">ART</h1>
     </div>
     <div id="sunday" class="text">
       <h1 :style="{ color: sundayColorString }">SUNDAY</h1>
@@ -13,12 +13,14 @@
 
 <script>
 
+  // import compColors from 'complementary-colors';
+
   export default {
     name: 'ArtSunday',
     props: {
-      artColor: {
+      baseHue: {
         type: Number,
-        default: 0x1e30d6
+        default: 0
       },
       counter: {
         type: Number,
@@ -27,10 +29,10 @@
     },
     computed: {
       artColorString() {
-        return '#' + this.artColor.toString(16);
+        return 'hsl('+this.baseHue+',100%,50%)';
       },
       sundayColorString() {
-        return '#' + this.artColor.toString(16);
+        return 'hsl('+(this.baseHue + 180)%360+',100%,50%)';
       }
     },
   }
