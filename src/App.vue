@@ -9,6 +9,7 @@
 <script>
 
   import ArtSunday from './components/ArtSunday.vue'
+  import Chat from './chat.js'
 
   export default {
     name: 'App',
@@ -24,6 +25,9 @@
         hueChangeRate: 0.5,
         maxChangeRate: 1,
       }
+    },
+    created() {
+      Chat.connect('insert-twitch-username-here');
     },
     methods: {
       fadeSeven() {
