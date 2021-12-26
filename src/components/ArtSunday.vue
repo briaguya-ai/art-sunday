@@ -2,10 +2,10 @@
 
   <div id="art-sunday">
     <div id="art" class="text">
-      <h1 :style="{ color: artColorString }">ART</h1>
+      <h1 :style="{ color: artColorString }">ART!</h1>
     </div>
     <div id="sunday" class="text">
-      <h1 :style="{ color: sundayColorString }">SUNDAY</h1>
+      <h1 :style="{ color: sundayColorString }">SUNDAY!</h1>
     </div>
   </div>
 
