@@ -45,12 +45,16 @@
     background-color: #000000;
   }
 
+  #click-handler {
+    margin: 0;
+  }
+
   .text {
     padding: 20px;
     font-size: 36px;
   }
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: 600px) and (min-height: 400px) {
     .text {
       font-size: 64px;
     }
