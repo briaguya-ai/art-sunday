@@ -67,23 +67,34 @@ import style from './style.css';
 // 	}
 // }
 
+const levelRates = [0.5, 1, 0.75, 2, 1, 0.5];
+const levelPoints = [570, 570, 1140, 570, 5700, 1140];
+
+Array.prototype.random = function () {
+  return this[Math.floor((Math.random()*this.length))];
+}
 
 const Home = () => {
-	// const [count, setCount] = useState(0);
+	const [count, setCount] = useState(0);
 	const [baseHue, setBaseHue] = useState(0);
 	const [mode, setMode] = useState(0);
-	const [endgame, setEndgame] = useState(false);
-	const [currentHueChangeRate, setCurrentHueChangeRate] = useState(0.5);
-	const [maxHueChangeRate, setMaxHueChangeRate] = useState(1);
+	const [currentLevel, setCurrentLevel] = useState(0);
+	const [pointsToNextLevel, setPointsToNextLevel] = useState(570);
+	const [currentHueChangeRate, setCurrentHueChangeRate] = useState(levelRates[0]);
+	const [nextHueChangeRate, setNextHueChangeRate] = useState(levelRates[1]);
 
 	const initialScore = 0;
 	const reducer = (score, reps) => {
-		if(score % 570 === 0) {
-			setMode((mode + 1) % 2)
-			setCurrentHueChangeRate((maxHueChangeRate - currentHueChangeRate) / 2)
+		setPointsToNextLevel(pointsToNextLevel - (currentHueChangeRate * reps))
+		if(!pointsToNextLevel) {
+			setMode((mode + 1) % 2);
+			setCurrentHueChangeRate(nextHueChangeRate);
+			setCurrentLevel(currentLevel + 1);
+			setNextHueChangeRate(levelRates.random());
+			setPointsToNextLevel(levelPoints.random());
 		}
-		setBaseHue((baseHue + currentHueChangeRate * reps) % 360)
-		return score + currentHueChangeRate * reps
+		setBaseHue((baseHue + currentHueChangeRate * reps) % 360);
+		return score + currentHueChangeRate * reps;
 	};
 
 	const [score, dispatch] = useReducer(reducer, initialScore);
@@ -91,14 +102,16 @@ const Home = () => {
 		<div onMouseMove={() => dispatch(1)} class={style.home}>
 		<div id="art-sunday">
 			<div id="art" class="text">
-				<h1 style={{color: `hsl(${baseHue},100%,${mode ? '75%' : '50%'})` }}>{endgame ? 'SCORE' : 'ART'}</h1>
+				<h1 style={{color: `hsl(${baseHue},100%,${mode ? '75%' : '50%'})` }}>{'ART'}</h1>
 			</div>
 			<div id="sunday" class="text">
-				<h1 style={{color: `hsl(${mode ? baseHue + 30 : baseHue + 180},100%,${mode ? '75%' : '50%'})` }}>{endgame ? score : 'SUNDAY'}</h1>
+				<h1 style={{color: `hsl(${mode ? baseHue + 30 : baseHue + 180},100%,${mode ? '75%' : '50%'})` }}>{'SUNDAY'}</h1>
 			</div>
 		</div>
 			<div>
 	      <p>Score: {score}</p>
+				<p>Level: {currentLevel}</p>
+				<p>pointsToNextLevel: {pointsToNextLevel}</p>
 				<button onClick={() => dispatch(1)}>+1</button>
 	      <button onClick={() => dispatch(-1)}>-1</button>
 	      <button onClick={() => dispatch(0)}>reset</button>
