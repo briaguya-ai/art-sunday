@@ -2,9 +2,18 @@
 // https://github.com/giambaJ/jChat/blob/1cc4475c55bcea3b8610e3577c593f2268b18ba4/v2/script.js
 // https://github.com/giambaJ/jChat/blob/1cc4475c55bcea3b8610e3577c593f2268b18ba4/v2/utils.js#L21
 import $ from "jquery";
+import ReconnectingWebSocket from 'reconnecting-websocket';
 
 function TwitchAPI(url) {
-    return $.getJSON(url + (url.search(/\?/) > -1 ? '&' : '?') + 'client_id=' + client_id);
+  return $.ajax({
+    type: "GET", //GET, POST, PUT
+        url: url,  //the url to call
+        dataType: "json",
+        beforeSend: function (xhr) {   //Set token here
+            xhr.setRequestHeader("Authorization", 'Bearer ' + 'dm3fb86nflzvlj9xqg8y4scdqmxv8q');
+            xhr.setRequestHeader("Client-Id", "hvr2k1lvhk4t7ln331a78ndfwmav8a");
+      }
+    })
 }
 
 export const Chat = {
@@ -13,18 +22,14 @@ export const Chat = {
     },
 
     load: function(callback) {
-        TwitchAPI('https://api.twitch.tv/v5/users?login=' + Chat.info.channel).done(function(res) {
+        TwitchAPI('https://api.twitch.tv/helix/users?' + Chat.info.channel).done(function(res) {
             Chat.info.channelID = res.users[0]._id;
 
             callback(true);
         });
     },
 
-    update: setInterval(function() {
-        if (Chat.info.lines.length > 0) {
-          console.log(Chat.info.lines.length);
-        }
-    }, 200),
+
 
     connect: function(channel) {
         Chat.info.channel = channel;
@@ -64,6 +69,7 @@ export const Chat = {
                             if (message.params[0] !== '#' + channel || !message.params[1]) return;
 
                             var nick = message.prefix.split('@')[0].split('!')[0];
+                            console.log(nick);
 
                             console.log(message.params[1]);
 

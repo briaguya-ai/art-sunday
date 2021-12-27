@@ -13,8 +13,8 @@
   import { StaticAuthProvider } from '@twurple/auth'
   import { ChatClient } from '@twurple/chat'
 
-  const clientId = 'hvr2k1lvhk4t7ln331a78ndfwmav8a'
-  const accessToken = 'dm3fb86nflzvlj9xqg8y4scdqmxv8q'
+  const clientId = 'client-id-goes-here'
+  const accessToken = 'access-token-goes-here'
   const auth = new StaticAuthProvider(clientId, accessToken, ['chat:read']);
   const chatClient = new ChatClient(auth, { channels: ['briaguya0'] })
   chatClient.onMessage((channel, user, message) => {
