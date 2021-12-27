@@ -9,8 +9,17 @@
 <script>
 
   import ArtSunday from './components/ArtSunday.vue'
-  import Chat from './chat.js'
 
+  import { StaticAuthProvider } from '@twurple/auth'
+  import { ChatClient } from '@twurple/chat'
+
+  const clientId = 'hvr2k1lvhk4t7ln331a78ndfwmav8a'
+  const accessToken = 'dm3fb86nflzvlj9xqg8y4scdqmxv8q'
+  const auth = new StaticAuthProvider(clientId, accessToken, ['chat:read']);
+  const chatClient = new ChatClient(auth, { channels: ['briaguya0'] })
+  chatClient.onMessage((channel, user, message) => {
+    console.log(message)
+  })
   export default {
     name: 'App',
     components: {
@@ -23,40 +32,44 @@
         endgame: false,
         score: 0,
         hueChangeRate: 0.5,
-        maxChangeRate: 1,
+        maxChangeRate: 1
       }
     },
     created() {
-      Chat.connect('insert-twitch-username-here');
+      async function apimain() {
+        await chatClient.connect()
+        console.log('blarg');
+      }
+      apimain()
     },
     methods: {
       fadeSeven() {
         this.baseHue = (this.baseHue + this.hueChangeRate) % 360
         this.score += this.hueChangeRate
         if (this.score % 570 === 0) {
-          this.mode = (this.mode + 1) % 2;
-          switch(this.score) {
+          this.mode = (this.mode + 1) % 2
+          switch (this.score) {
             case 24510:
               console.log('endgame')
-              this.endgame = true;
-              break;
+              this.endgame = true
+              break
             case 17670:
-              this.hueChangeRate = 2;
-              this.maxChangeRate = 2;
-              break;
+              this.hueChangeRate = 2
+              this.maxChangeRate = 2
+              break
             case 9120:
-              this.hueChangeRate = 0.5;
-              this.maxChangeRate = 2;
-              break;
+              this.hueChangeRate = 0.5
+              this.maxChangeRate = 2
+              break
             case 5700:
-              this.hueChangeRate = 1;
-              this.maxChangeRate = 0.5;
-              break;
+              this.hueChangeRate = 1
+              this.maxChangeRate = 0.5
+              break
             default:
-              this.hueChangeRate += (this.maxChangeRate - this.hueChangeRate) / 2;
+              this.hueChangeRate += (this.maxChangeRate - this.hueChangeRate) / 2
           }
         }
-      },
+      }
     },
     computed: {
       backgroundStyleString() {

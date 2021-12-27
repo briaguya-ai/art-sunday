@@ -11,8 +11,7 @@
 * [firefox](https://www.mozilla.org/en-US/firefox/new/)
   * [Vue.js devtools (beta)](https://github.com/vuejs/devtools/releases/tag/v6.0.0-beta.21)
 
-## Twitch integration based on jChat
-https://github.com/giambaJ/jChat/blob/1cc4475c55bcea3b8610e3577c593f2268b18ba4/v2/script.js
+### Twitch integration using [Twurple](https://twurple.js.org/)
 
 ## Project setup
 ```
