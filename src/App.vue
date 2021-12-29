@@ -10,16 +10,6 @@
 
   import ArtSunday from './components/ArtSunday.vue'
 
-  import { StaticAuthProvider } from '@twurple/auth'
-  import { ChatClient } from '@twurple/chat'
-
-  const clientId = 'client-id-goes-here'
-  const accessToken = 'access-token-goes-here'
-  const auth = new StaticAuthProvider(clientId, accessToken, ['chat:read']);
-  const chatClient = new ChatClient(auth, { channels: ['briaguya0'] })
-  chatClient.onMessage((channel, user, message) => {
-    console.log(message)
-  })
   export default {
     name: 'App',
     components: {
@@ -34,13 +24,6 @@
         hueChangeRate: 0.5,
         maxChangeRate: 1
       }
-    },
-    created() {
-      async function apimain() {
-        await chatClient.connect()
-        console.log('blarg');
-      }
-      apimain()
     },
     methods: {
       fadeSeven() {

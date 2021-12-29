@@ -8,12 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@twitchapis/twitch.js": "^1.0.0",
-    "@twurple/auth": "^5.0.13",
-    "@twurple/chat": "^5.0.13",
-    "complementary-colors": "^1.0.6",
     "core-js": "^3.6.5",
-    "jquery": "^3.6.0",
     "reconnecting-websocket": "^4.4.0",
     "vue": "^3.0.0"
   },
