@@ -10,6 +10,8 @@
 
   import ArtSunday from './components/ArtSunday.vue'
 
+  const ComfyJS = require("comfy.js");
+
   export default {
     name: 'App',
     components: {
@@ -24,6 +26,10 @@
         hueChangeRate: 0.5,
         maxChangeRate: 1
       }
+    },
+    mounted() {
+      ComfyJS.onChat = this.handleChat;
+      ComfyJS.Init('briaguya0');
     },
     methods: {
       fadeSeven() {
@@ -52,7 +58,10 @@
               this.hueChangeRate += (this.maxChangeRate - this.hueChangeRate) / 2
           }
         }
-      }
+      },
+      handleChat() {
+        console.log( 'blarg' );
+      },
     },
     computed: {
       backgroundStyleString() {
