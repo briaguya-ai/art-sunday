@@ -1,7 +1,7 @@
 <template>
 
   <div id="click-handler" :style="{ background: backgroundStyleString }" @mousemove="fadeSeven" @touchmove="fadeSeven">
-    <ArtSunday :baseHue=baseHue :mode=mode :score=score :endgame=endgame />
+    <ArtSunday :baseHue=baseHue :mode=mode :score=score />
   </div>
 
 </template>
@@ -12,6 +12,13 @@
 
   const ComfyJS = require("comfy.js");
 
+  const levelRates = [0.005, 0.010, 0.005, 0.005, 0.010, 0.005];
+  const levelPoints = [570, 570, 1140, 570, 5700, 1140];
+
+  Array.prototype.random = function () {
+    return this[Math.floor((Math.random()*this.length))];
+  }
+
   export default {
     name: 'App',
     components: {
@@ -21,10 +28,10 @@
       return {
         baseHue: 0,
         mode: 0,
-        endgame: false,
+        currentLevel: 0,
         score: 0,
-        hueChangeRate: 0.5,
-        maxChangeRate: 1
+        pointsToNextLevel: 570,
+        currentHueChangeRate: 0.005,
       }
     },
     mounted() {
@@ -32,35 +39,18 @@
       ComfyJS.Init('briaguya0');
     },
     methods: {
-      fadeSeven() {
-        this.baseHue = (this.baseHue + this.hueChangeRate) % 360
-        this.score += this.hueChangeRate
-        if (this.score % 570 === 0) {
-          this.mode = (this.mode + 1) % 2
-          switch (this.score) {
-            case 24510:
-              console.log('endgame')
-              this.endgame = true
-              break
-            case 17670:
-              this.hueChangeRate = 2
-              this.maxChangeRate = 2
-              break
-            case 9120:
-              this.hueChangeRate = 0.5
-              this.maxChangeRate = 2
-              break
-            case 5700:
-              this.hueChangeRate = 1
-              this.maxChangeRate = 0.5
-              break
-            default:
-              this.hueChangeRate += (this.maxChangeRate - this.hueChangeRate) / 2
-          }
+      handleChat(user, message) {
+        const reps = user.length + message.length;
+        this.pointsToNextLevel = this.pointsToNextLevel - this.currentHueChangeRate * reps;
+        console.log(this.pointsToNextLevel);
+        if(this.pointsToNextLevel <= 0) {
+          this.mode = (this.mode + 1) % 2;
+          this.currentLevel += 1;
+          this.currentHueChangeRate = levelRates.random();
+          this.pointsToNextLevel = levelPoints.random();
         }
-      },
-      handleChat() {
-        console.log( 'blarg' );
+        this.baseHue = (this.baseHue + this.currentHueChangeRate * reps) % 360;
+        this.score = this.score + this.currentHueChangeRate * reps;
       },
     },
     computed: {

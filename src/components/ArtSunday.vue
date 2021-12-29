@@ -34,10 +34,6 @@
         type: Number,
         default: 0
       },
-      endgame: {
-        type: Boolean,
-        default: false
-      }
     },
     computed: {
       artColorString() {
@@ -57,14 +53,10 @@
         }
       },
       artText() {
-        if(this.endgame)
-          return 'SCORE';
-        return 'ART!';
+        return 'SCORE';
       },
       sundayText() {
-        if(this.endgame)
-          return this.score;
-        return 'SUNDAY!';
+        return new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(this.score);
       }
     },
   }
