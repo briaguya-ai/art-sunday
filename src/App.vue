@@ -32,17 +32,18 @@
         score: 0,
         pointsToNextLevel: 570,
         currentHueChangeRate: 0.005,
+        channelName: '',
       }
     },
     mounted() {
       ComfyJS.onChat = this.handleChat;
-      ComfyJS.Init('briaguya0');
+      this.channelName = window.location.pathname.split('/')[1];
+      ComfyJS.Init(this.channelName);
     },
     methods: {
       handleChat(user, message) {
         const reps = user.length + message.length;
         this.pointsToNextLevel = this.pointsToNextLevel - this.currentHueChangeRate * reps;
-        console.log(this.pointsToNextLevel);
         if(this.pointsToNextLevel <= 0) {
           this.mode = (this.mode + 1) % 2;
           this.currentLevel += 1;
