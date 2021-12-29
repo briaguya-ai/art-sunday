@@ -1,6 +1,6 @@
 import { h } from 'preact';
-import tmi from 'tmi.js';
-import { useState, useReducer } from 'preact/hooks';
+import ComfyJS from 'comfy.js';
+import { useState, useReducer, useEffect } from 'preact/hooks';
 import style from './style.css';
 
 const levelRates = [0.5, 1, 0.75, 2, 1, 0.5];
@@ -10,36 +10,56 @@ Array.prototype.random = function () {
   return this[Math.floor((Math.random()*this.length))];
 }
 
-class Home extends Component {
-  constructor() {
-    super();
-    this.state = {
-      count: 0,
-      baseHue: 0,
-      mode: 0,
-      currentLevel: 0,
-      pointsToNextLevel: 570,
-      currentHueChangeRate: 0.5,
-    }
+// class Home extends Component {
+//   constructor() {
+//     super();
+//     this.state = {
+//       count: 0,
+//       baseHue: 0,
+//       mode: 0,
+//       currentLevel: 0,
+//       pointsToNextLevel: 570,
+//       currentHueChangeRate: 0.5,
+//       nextHueChangeRate:
+//     }
+//   }
+// }
 
-    const client = new tmi.Client({
-      channels: [ 'briaguya0' ]
-    });
-    client.connect();
-    client.on('message', (channel, tags, message, self) => {
-      // "Alca: Hello, World!"
-      console.log(`${tags['display-name']}: ${message}`);
-    });
+const Home = ({ channel }) => {
+  console.log(channel);
+  debugger;
+  if (!channel) {
+    return (
+      <div class={style.home}>add channel name to url</div>
+    )
   }
-}
 
-const Home = () => {
+	const [count, setCount] = useState(0);
+	const [baseHue, setBaseHue] = useState(0);
+	const [mode, setMode] = useState(0);
+	const [currentLevel, setCurrentLevel] = useState(0);
+	const [pointsToNextLevel, setPointsToNextLevel] = useState(570);
+	const [currentHueChangeRate, setCurrentHueChangeRate] = useState(levelRates[0]);
+	const [nextHueChangeRate, setNextHueChangeRate] = useState(levelRates[1]);
 
+  useEffect(() => {
+    debugger;
+    ComfyJS.onChat = ( user, message, flags, self, extra ) => {
+      console.log("blarg");
+    };
+    ComfyJS.Init(channel);
+  });
 
-
-
-
-
+  // const client = new tmi.Client({
+  // 	channels: [ 'briaguya0' ]
+  // });
+  //
+  // client.connect();
+  //
+  // client.on('message', (channel, tags, message, self) => {
+  // 	// "Alca: Hello, World!"
+  // 	console.log(`${tags['display-name']}: ${message}`);
+  // });
 
 	const initialScore = 0;
 	const reducer = (score, reps) => {
@@ -47,7 +67,7 @@ const Home = () => {
 		if(!pointsToNextLevel) {
 			setMode((mode + 1) % 2);
 			setCurrentLevel(currentLevel + 1);
-      setCurrentHueChangeRate(levelRates.random());
+			setCurrentHueChangeRate(levelRates.random());
 			setPointsToNextLevel(levelPoints.random());
 		}
 		setBaseHue((baseHue + currentHueChangeRate * reps) % 360);

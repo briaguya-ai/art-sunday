@@ -12,6 +12,7 @@ const App = () => (
 		<Header />
 		<Router>
 			<Home path="/" />
+			<Home path="/:channel" />
 			<Profile path="/profile/" user="me" />
 			<Profile path="/profile/:user" />
 		</Router>
